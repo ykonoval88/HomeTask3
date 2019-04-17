@@ -7,4 +7,4 @@ Summary
 
 The execution of Union took more time, because additional operation to exclude duplication added to UNION algorithm.
 
-In all UNION operations for current programa merge sort used.
+In all UNION operations for current program a merge sort used.
