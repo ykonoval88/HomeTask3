@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using HomeTask3.Entity;
@@ -56,17 +57,19 @@ namespace HomeTask3
 
         public void CallUnionAll()
         {
-            var unionAllResult = Unions.UnionAll(Barcelona1.ToArray(), Barcelona2.ToArray());
-            Console.WriteLine(@"Union all total records {0}", unionAllResult.Length);
+            var unionAllResult = Barcelona1.UnionAll(Barcelona2);
+            Console.WriteLine(@"Union all total records {0}", unionAllResult.ToArray().Length);
         }
 
         public void CallUnion()
         {
-            var unionResult = Unions.Union(Barcelona1.ToArray(), Barcelona2.ToArray());
-            Console.WriteLine(@"Union total records {0}", unionResult.Length);
+            var unionResult = Barcelona1.Union(Barcelona2);
+            Console.WriteLine(@"Union total records {0}", unionResult.ToArray().Length);
         }
     }
 
+    [MemoryDiagnoser] // we need to enable it in explicit way
+    [RyuJitX64Job, LegacyJitX86Job] // let's run the benchmarks for 32 & 64 bit
     public class Program
     {
         [Benchmark]
@@ -88,6 +91,7 @@ namespace HomeTask3
         static void Main(string[] args)
         {
             var summary = BenchmarkRunner.Run<Program>();
+
             Console.ReadLine();
         }
     }
